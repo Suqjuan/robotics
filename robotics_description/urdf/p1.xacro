@@ -30,6 +30,7 @@
     <!--I want to add a base link-->
     <link name="base_link">
         <visual>
+            <origin xyz="0 0 0" rpy="0 0 0 "/>
             <geometry>
                 <cylinder radius="0.10" length="0.01"/>
             </geometry>
@@ -63,7 +64,7 @@
     <link name="link2">
         
         <visual>
-            <origin xyz="0 0.25 0.0" rpy="${pi/2} 0 0 "/>
+            <origin xyz="0.25 0 0.0" rpy="${pi/2} 0 ${-pi/2}  "/>
             <geometry>
                 <cylinder radius="0.02" length="0.5"/>
             </geometry>
@@ -80,7 +81,7 @@
 
     <link name="link3">
         <visual>
-            <origin xyz="0 0.25 0" rpy="${pi/2} 0 0"/>
+            <origin xyz="0 0 0.25" rpy="${pi} 0 0"/>
             <geometry>
                 <cylinder radius="0.02" length="0.5"/>
             </geometry>
@@ -97,14 +98,15 @@
 
     <link name="link4">
         <visual>
+            <origin xyz="0 0 0.10" rpy="${pi/2} ${pi} 0"/>
             <geometry>
-                <box size="0.08 0.08 0.08"/>
+                <mesh filename="package://robotics/robotics_description/meshes/spoon.stl" scale="0.003 0.003 0.003"/>
             </geometry>
             <material name="black"/>
         </visual>
         <collision>
             <geometry>
-                <box size="0.08 0.08 0.08"/>
+                <mesh filename="package://robotics/robotics_description/meshes/spoon.stl" scale="0.003 0.003 0.003"/>
             </geometry>
         </collision>
         <xacro:default_inertial mass="1"/>
@@ -133,11 +135,13 @@
 
     <joint name="joint5" type="fixed">
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <parent link="base_link"/>
+        <parent link="dummy"/>
         <child link="link5"/>
     </joint>
 
+
     <joint name="dummy_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <parent link="dummy"/>
         <child link="base_link"/>
     </joint>
@@ -161,16 +165,15 @@
     </joint>
 
     <joint name="joint3" type="revolute">
-        <origin xyz="0 0.5 0." rpy="${pi/2} 0 ${pi/2}"/>
+        <origin xyz="0.5 0 0." rpy="${pi} 0 ${-pi/2}"/>
         <parent link="link2"/>
         <child link="link3"/>
         <axis xyz="0 0 1"/>
-        <limit lower="${-3*pi/2}" upper="${-pi/2}" effort="50" velocity="1"/>
-       
+        <limit lower="${-pi}" upper="${pi}" effort="50" velocity="1"/>
     </joint>
 
     <joint name="joint4" type="revolute">
-        <origin xyz="0 0.5 0" rpy="${-pi/2} 0 0"/>
+        <origin xyz="0 0 0.5" rpy="${pi/2} 0 ${pi}"/>
         <parent link="link3"/>
         <child link="link4"/>
         <axis xyz="0 0 1"/>
