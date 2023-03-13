@@ -26,18 +26,18 @@ class JointControl(QWidget):
         self.sliders[0].setMaximum(int(max_value * 100))
         
 
-        min_value = -pi/2
-        max_value = pi/2
+        min_value = -pi
+        max_value = pi
         self.sliders[1].setMinimum(int(min_value * 100))
         self.sliders[1].setMaximum(int(max_value * 100))
 
-        min_value = -3*pi/2
-        max_value = -pi/2
+        min_value = -pi
+        max_value = pi
         self.sliders[2].setMinimum(int(min_value * 100))
         self.sliders[2].setMaximum(int(max_value * 100))
 
-        min_value = -pi/2
-        max_value = pi/2
+        min_value = -pi
+        max_value = pi
         self.sliders[3].setMinimum(int(min_value * 100))
         self.sliders[3].setMaximum(int(max_value * 100))
 
