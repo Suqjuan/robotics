@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+
+<robot name="scara" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:property name="pi" value="3.1415"/>
+    <xacro:property name="H" value="0.5"/>
+    <xacro:property name="L2" value="0.5"/>
+    <xacro:property name="L3" value="0.25"/>
+    <xacro:property name="d3" value="0.5"/>
+
+
+    <xacro:macro name="default_inertial" params="mass">
+        <inertial>
+            <mass value="${mass}" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+    </xacro:macro>
+
+    <!--DUMMY LINK-->
+    <link name="dummy"></link>
+
+    <!--BASE LINK-->
+    <xacro:include filename= "$(find robotics)/projects/scara/scara_description/urdf/link0.xacro"/>
+    <link name="base_link">
+        <xacro:link0/> 
+        <xacro:default_inertial mass="50"/>
+
+    </link>
+
+    <!--LINK1-->
+    <xacro:include filename= "$(find robotics)/projects/scara/scara_description/urdf/link1.xacro"/>
+    <xacro:link1 height="${H}" rad="0.02"/>
+    
+    <!--LINK2-->
+    <xacro:include filename= "$(find robotics)/projects/scara/scara_description/urdf/link2.xacro"/>
+    <link name="link2">
+        <xacro:link2 height="${L3}" rad="0.02"/>
+        <xacro:default_inertial mass="1"/>
+    </link>
+
+    <!--LINK3-->
+    <xacro:include filename= "$(find robotics)/projects/scara/scara_description/urdf/link3.xacro"/>
+    <link name="link3">
+        <xacro:link3 height="${d3}" rad="0.02"/>
+        <xacro:default_inertial mass="1"/>
+    </link>
+
+    <!--LINK4-->
+    <xacro:include filename= "$(find robotics)/projects/scara/scara_description/urdf/link4.xacro"/>
+    <link name="link4">
+        <xacro:link4 side="0.02"/>
+        <xacro:default_inertial mass="1"/>
+    </link>
+
+    <!--JOINT STUFF-->
+
+    <joint name="dummy_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="dummy"/>
+        <child link="base_link"/>
+    </joint>
+    
+    <joint name="joint1" type="revolute">
+        <origin xyz="0 0 ${H}" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="link1"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="50" velocity="1"/>
+    </joint>
+
+    <joint name="joint2" type="revolute">
+        <origin xyz="${L2} 0 0" rpy="0 0 0"/>
+        <parent link="link1"/>
+        <child link="link2"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="50" velocity="1"/>
+        
+    </joint>
+
+    <joint name="joint3" type="prismatic">
+        <origin xyz="${L3} 0 0" rpy="${pi} 0 0"/>
+        <parent link="link2"/>
+        <child link="link3"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="0" upper="${d3}" effort="50" velocity="1"/>
+    </joint>
+
+    <joint name="joint4" type="revolute">
+        <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+        <parent link="link3"/>
+        <child link="link4"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" effort="50" velocity="1"/>
+        
+    </joint>
+
+    
+    <!--TRANS STUFF-->
+
+    <transmission name="trans1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="$joint1_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="joint1">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="trans2">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="$joint2_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="joint2">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="trans3">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="$joint3_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="joint3">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="trans4">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="$joint4_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="joint4">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+     <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
+
+   
+    <xacro:include filename="$(find robotics)/projects/scara/scara_description/urdf/scara.gazebo" />
+
+</robot>

@@ -2,20 +2,18 @@
 <launch>
   <!-- Load the URDF -->
 
-    <arg name="model" default="$(find robotics)/robotics_description/urdf/p1.xacro use_nominal_extrinsics:=true add_plug:=true"/>
+    <arg name="model" default="$(find robotics)/projects/scara/scara_description/urdf/scara.xacro use_nominal_extrinsics:=true add_plug:=true"/>
     <arg name="gui" default="false" />
     <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz/urdf.rviz" />
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
-
-    <include file="$(find robotics)/robotics_gazebo/launch/gazebo.launch">
+    <include file="$(find robotics)/projects/scara/scara_gazebo/launch/gazebo.launch">
       <arg name="model" value="$(arg model)" />
     </include>
+  
+    
 
-    <node if="$(arg gui)" name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui">
-      
-      <param name="/joint_states" value="/p1_arm_controller/command" />
-    </node>
+    <node if="$(arg gui)" name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/>
     <node unless="$(arg gui)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 
 
@@ -25,20 +23,20 @@
     </node>
     
     <rosparam command="load"
-            file="$(find robotics)/robotics_description/config/joints.yaml"
-            ns="p1_joint_state_controller"/>
+            file="$(find robotics)/projects/scara/scara_description/config/joints.yaml"
+            ns="scara_joint_state_controller"/>
   
     <rosparam command="load"
-            file="$(find robotics)/robotics_description/config/arm.yaml"
-            ns="p1_arm_controller"/>
+            file="$(find robotics)/projects/scara/scara_description/config/arm.yaml"
+            ns="scara_arm_controller"/>
     <!--<rosparam command="load"
-            file="$(find robotics)/robotics_description/config/gazebo_pid.yaml"
+            file="$(find robotics)/projects/scara/scara_description/config/gazebo_pid.yaml"
             ns="gazebo_ros_control"/>-->
     
 
     <node name="controller_spawner" pkg="controller_manager" type="spawner"
-          args="p1_joint_state_controller
-                p1_arm_controller"/>
+          args="scara_joint_state_controller
+                scara_arm_controller"/>
 
   
 </launch>

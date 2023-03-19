@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<robot name="link3" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:property name="height" value="0.5"/>
+    <xacro:property name="L2" value="0.5"/>
+    <xacro:property name="L3" value="0.25"/>
+    <xacro:property name="d3" value="0.5"/>
+
+    <xacro:macro name="color">
+        <material name="red">
+            <color rgba="1 0 0 1"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="link3" params="height rad">
+        <visual>
+            <origin xyz="0 0 ${-height/2}" rpy="0 0 0 "/>
+            <geometry>
+                <cylinder radius="${rad}" length="${height}"/>
+            </geometry>
+            <xacro:color/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${height/2}" rpy="0 0 0 "/>
+            <geometry>
+                <cylinder radius="${rad}" length="${height}"/>
+            </geometry>
+        </collision>
+        
+    </xacro:macro>
+
+    <!--Comment this out when integrating-->
+    
+    <!--
+    <link name="base_link">
+        <xacro:link3 H="0.5" rad="0.02"/>
+    </link>
+     -->
+    
+    
+    
+
+</robot>

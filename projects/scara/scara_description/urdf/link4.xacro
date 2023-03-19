@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<robot name="link4" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:property name="H" value="0.5"/>
+    <xacro:property name="L2" value="0.5"/>
+    <xacro:property name="L3" value="0.25"/>
+    <xacro:property name="d3" value="0.5"/>
+
+    <xacro:macro name="color">
+        <material name="black">
+            <color rgba="0 0 0 1"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="link4" params="side">
+        <visual>
+            <origin xyz="0 0 ${side/2}" rpy="0 0 0 "/>
+            <geometry>
+                <box size="${side} ${side} ${side}"/>
+            </geometry>
+            <xacro:color/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${side/2}" rpy="0 0 0 "/>
+            <geometry>
+                <box size="${side} ${side} ${side}"/>
+            </geometry>
+        </collision>
+        
+    </xacro:macro>
+
+    <!--Comment this out when integrating-->
+    
+    <!--
+    <link name="base_link">
+        <xacro:link4 side=".02"/>
+    </link>
+    
+    -->
+    
+
+</robot>

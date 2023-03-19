@@ -100,13 +100,13 @@
         <visual>
             <origin xyz="0 0 -0.125" rpy="${pi/2} ${pi} 0"/>
             <geometry>
-                <mesh filename="package://robotics/robotics_description/meshes/spoon.stl" scale="0.003 0.003 0.003"/>
+                <mesh filename="package://robotics/projects/p1/p1_description/meshes/spoon.stl" scale="0.003 0.003 0.003"/>
             </geometry>
             <material name="black"/>
         </visual>
         <collision>
             <geometry>
-                <mesh filename="package://robotics/robotics_description/meshes/spoon.stl" scale="0.003 0.003 0.003"/>
+                <mesh filename="package://robotics/projects/p1/p1_description/meshes/spoon.stl" scale="0.003 0.003 0.003"/>
             </geometry>
         </collision>
         <xacro:default_inertial mass="1"/>
@@ -231,6 +231,6 @@
     </gazebo>
 
    
-    <xacro:include filename="$(find robotics)/robotics_description/urdf/p1.gazebo" />
+    <xacro:include filename="$(find robotics)/projects/p1/p1_description/urdf/p1.gazebo" />
 
 </robot>

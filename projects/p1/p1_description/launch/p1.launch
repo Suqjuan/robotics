@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Load the URDF -->
+
+    <arg name="model" default="$(find robotics)/projects/p1/p1_description/urdf/p1.xacro use_nominal_extrinsics:=true add_plug:=true"/>
+    <arg name="gui" default="false" />
+    <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz/urdf.rviz" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+    <include file="$(find robotics)/projects/p1/p1_gazebo/launch/gazebo.launch">
+      <arg name="model" value="$(arg model)" />
+    </include>
+  
+    
+
+    <node if="$(arg gui)" name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/>
+    <node unless="$(arg gui)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="50.0" />
+      
+    </node>
+    
+    <rosparam command="load"
+            file="$(find robotics)/projects/p1/p1_description/config/joints.yaml"
+            ns="p1_joint_state_controller"/>
+  
+    <rosparam command="load"
+            file="$(find robotics)/projects/p1/p1_description/config/arm.yaml"
+            ns="p1_arm_controller"/>
+    <!--<rosparam command="load"
+            file="$(find robotics)/projects/p1/p1_description/config/gazebo_pid.yaml"
+            ns="gazebo_ros_control"/>-->
+    
+
+    <node name="controller_spawner" pkg="controller_manager" type="spawner"
+          args="p1_joint_state_controller
+                p1_arm_controller"/>
+
+  
+</launch>
+
+<!--GOOD REFERENCE
+https://github.com/ros-simulation/gazebo_ros_demos/issues/30-->

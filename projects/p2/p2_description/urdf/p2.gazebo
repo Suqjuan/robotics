@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot>
+  <gazebo>
+  <!-- All static links get collapsed down to base_link in Gazebo, so that's
+       the one to apply the colour to (in Gazebo 5+). -->
+    <gazebo reference="dummy">
+        <material>Gazebo/White</material>
+        <gravity>true</gravity>
+    </gazebo>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Black</material>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0" />
+        <kd value="1.0" />
+    </gazebo>
+
+    <gazebo reference="link1">
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <gazebo reference="link2">
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+    <gazebo reference="link3">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <gazebo reference="link4">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+  </gazebo>
+
+</robot>

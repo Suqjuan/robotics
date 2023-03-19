@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name="model" default="$(find robotics)/robotics_description/urdf/p1.xacro"/>
+  <arg name="model" default="$(find robotics)/projects/p2/p2_description/urdf/p2.xacro"/>
   <arg name="gui" default="true" />
   <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz/urdf.rviz" />
 
